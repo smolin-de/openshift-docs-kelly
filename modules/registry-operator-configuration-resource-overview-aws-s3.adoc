@@ -43,3 +43,11 @@ true, or this parameter is ignored.
 It is optional.
 
 |===
+
+[NOTE]
+====
+When the value of `regionEndpoint` is configured to a URL of a Rados Gatway, and explicit port must not be specified.
+
+Example -
+regionEndpoint: http://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local
+====
