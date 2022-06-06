@@ -31120,7 +31120,11 @@
 </ul>
 </li>
 <li><a href="#machineset-azure-enabling-accelerated-networking-new-install_installing-azure-customizations">Enabling Accelerated Networking during installation</a></li>
-<li><a href="#installation-launching-installer_installing-azure-customizations">Deploying the cluster</a></li>
+<li><a href="#installation-launching-installer_installing-azure-customizations">Deploying the cluster</a>
+<ul class="sectlevel2">
+<li><a href="#installing-launching-installer-heterogeneous">Deploying a heterogeneous cluster</a></li>
+</ul>
+</li>
 <li><a href="#cli-installing-cli_installing-azure-customizations">Installing the OpenShift CLI by downloading the binary</a></li>
 <li><a href="#cli-logging-in-kubeadmin_installing-azure-customizations">Logging in to the cluster by using the CLI</a></li>
 <li><a href="#cluster-telemetry_installing-azure-customizations">Telemetry access for OpenShift Container Platform</a></li>
@@ -31926,7 +31930,7 @@ The prefix length for an IPv4 block is between <code>0</code> and <code>32</code
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>compute.architecture</code></p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
-<p>Determines the instruction set architecture of the machines in the pool. Currently, heterogeneous clusters are in technology preview. Valid values are <code>amd64</code> and <code>arm64</code>.</p>
+<p>Determines the instruction set architecture of the machines in the pool. Currently, clusters with varied architectures are not supported. All pools must specify the same architecture. Valid values are <code>amd64</code> (the default).</p>
 </div></div></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
 <p>String</p>
@@ -31995,7 +31999,7 @@ accounts for the dramatically decreased machine performance.</p>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><code>controlPlane.architecture</code></p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
-<p>Determines the instruction set architecture of the machines in the pool. Currently, heterogeneous clusters are in technology preview. Valid values are <code>amd64</code> (the default).</p>
+<p>Determines the instruction set architecture of the machines in the pool. Currently, clusters with varied architectures are not supported. All pools must specify the same architecture. Valid values are <code>amd64</code> (the default).</p>
 </div></div></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
 <p>String</p>
@@ -32941,6 +32945,35 @@ INFO Time elapsed: 36m22s</span></code></pre>
 </td>
 </tr>
 </table>
+</div>
+<div class="sect2">
+<h3 id="installing-launching-installer-heterogeneous"><a class="anchor" href="#installing-launching-installer-heterogeneous"></a>Deploying a heterogeneous cluster</h3>
+<div class="paragraph">
+<p>To deploy a heterogeneous cluster on OpenShift Container Platform, you must override the release image using a release payload.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Heterogeneous clusters for OpenShift Container Platform on Azure installer-provision infrastructure installations is a Technology Preview feature only. Technology Preview features
+are not supported with Red Hat production service level agreements (SLAs) and
+might not be functionally complete. Red Hat does not recommend using them
+in production. These features provide early access to upcoming product
+features, enabling customers to test functionality and provide feedback during
+the development process.</p>
+</div>
+<div class="paragraph">
+<p>For more information about the support scope of Red Hat Technology Preview
+features, see <a href="https://access.redhat.com/support/offerings/techpreview/" class="bare">https://access.redhat.com/support/offerings/techpreview/</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
