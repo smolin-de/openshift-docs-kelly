@@ -31807,15 +31807,15 @@ ci-ln-j5cd0qt-f76d1-vfj5x-worker-d-stsjv   Ready                         worker 
 </ol>
 </div>
 <div class="sect3">
-<h4 id="images-configuration-blocked-payload"><a class="anchor" href="#images-configuration-blocked-payload"></a>Allow blocking of a payload registry</h4>
+<h4 id="images-configuration-blocked-payload"><a class="anchor" href="#images-configuration-blocked-payload"></a>Blocking a payload registry</h4>
 <div class="paragraph">
-<p>When your mirrors are already configured using a ImageContentSourcePolicy (ICSP) object, you can block upstream payload registries in a disconnected environment.</p>
+<p>In a mirroring configuration, you can block upstream payload registries in a disconnected environment using a <code>ImageContentSourcePolicy</code> (ICSP) object. The following example procedure demonstrates how to block the <code>quay.io/openshift-payload</code> payload registry.</p>
 </div>
 <div class="olist arabic">
 <div class="title">Procedure</div>
 <ol class="arabic">
 <li>
-<p>Mirror the payload to a registry in your use case using an ImageContentSourcePolicy (ICSP) object. The following example ICSP mirrors the payload <code>itnernal-mirror.io/openshift-payload</code>.</p>
+<p>Create the mirror configuration using an <code>ImageContentSourcePolicy</code> (ICSP) object to mirror the payload to a registry in your instance. The following example ICSP file mirrors the payload <code>internal-mirror.io/openshift-payload</code>:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="yaml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">operator.openshift.io/v1alpha1</span>
@@ -31831,15 +31831,30 @@ ci-ln-j5cd0qt-f76d1-vfj5x-worker-d-stsjv   Ready                         worker 
 </div>
 </li>
 <li>
-<p>Once the object deploys onto your nodes, use the following command to edit the <code>image.config.openshift.io</code>.</p>
+<p>After the object deploys onto your nodes, verify that the mirror configuration is set by checking the <code>/etc/containers/registries.conf</code> file:</p>
 <div class="listingblock">
+<div class="title">Example output</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">oc edit `image.config.openshift.io` cluster</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">[[registry]]
+  prefix = ""
+  location = "quay.io/openshift-payload"
+  mirror-by-digest-only = true
+
+[[registry.mirror]]
+  location = "internal-mirror.io/openshift-payload"</span></code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>To block the payload registry, add the following configuration to the file.</p>
+<p>Use the following command to edit the <code>image.config.openshift.io</code> custom resource file:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc edit image.config.openshift.io cluster</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>To block the payload registry, add the following configuration to the <code>image.config.openshift.io</code> custom resource file:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="yaml"><span class="na">spec</span><span class="pi">:</span>
@@ -31849,10 +31864,28 @@ ci-ln-j5cd0qt-f76d1-vfj5x-worker-d-stsjv   Ready                         worker 
 </div>
 </div>
 </li>
-<li>
-<p>Check that the new configuration is applied to the nodes.</p>
-</li>
 </ol>
+</div>
+<div class="ulist">
+<div class="title">Verification</div>
+<ul>
+<li>
+<p>Verify that the upstream payload registry is blocked by checking the <code>/etc/containers/registries.conf</code> file on the node.</p>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">[[registry]]
+  prefix = ""
+  location = "quay.io/openshift-payload"
+  blocked = true
+  mirror-by-digest-only = true
+
+[[registry.mirror]]
+  location = "internal-mirror.io/openshift-payload"</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
