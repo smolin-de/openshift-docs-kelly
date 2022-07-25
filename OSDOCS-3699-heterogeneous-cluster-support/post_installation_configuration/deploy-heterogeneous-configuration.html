@@ -14,7 +14,7 @@
   
   
   
-  <title>Configuring a Heterogeneous cluster | Post-installation configuration | OpenShift Container Platform Branch Build</title>
+  <title>Configuring a heterogeneous cluster | Post-installation configuration | OpenShift Container Platform Branch Build</title>
   <link href="https://assets.openshift.net/content/subdomain.css" rel="stylesheet" type="text/css">
   <link href="https://docs.openshift.com/container-platform/4.1/_stylesheets/search.css" rel="stylesheet" />
   <link href="https://docs.openshift.com/container-platform/4.1/_stylesheets/autumn.css" rel="stylesheet" />
@@ -216,7 +216,7 @@
       </li>
       
       <li class="hidden-xs active">
-        Configuring a Heterogeneous cluster
+        Configuring a heterogeneous cluster
       </li>
       
       <span text-align="right" style="float: right !important">
@@ -4174,7 +4174,7 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
-            <li><a class=" active" href="../post_installation_configuration/deploy-heterogeneous-configuration.html">Configuring a Heterogeneous cluster</a></li>
+            <li><a class=" active" href="../post_installation_configuration/deploy-heterogeneous-configuration.html">Configuring a heterogeneous cluster</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
 
@@ -31128,7 +31128,7 @@
 <p>A heterogeneous cluster is a cluster that supports worker machines with different architectures. You can deploy a heterogeneous cluster by creating an Azure installer-provisioned cluster using the heterogeneous installer binary. For Azure installation, see <a href="../installing/installing_azure/installing-azure-customizations.html">Installing on Azure with customizations</a>.</p>
 </div>
 <div class="paragraph">
-<p>The following procedures explain how to generate a <code>arm64</code> bootimage and create an Azure machine set with the <code>arm64</code> bootimage. This will add <code>arm64</code> worker nodes to your heterogeneous cluster and deploy a ARM64 virtual machine (VM). Heterogeneous clusters are only available on Azure installer-provisioned infrastructures with <code>x86_64</code> control planes.</p>
+<p>The following procedures explain how to generate a <code>arm64</code> bootimage and create an Azure machine set with the <code>arm64</code> bootimage. This will add <code>arm64</code> worker nodes to your heterogeneous cluster and deploy the desired amount of ARM64 virtual machines (VM). Heterogeneous clusters are only available on Azure installer-provisioned infrastructures with <code>x86_64</code> control planes.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -31291,7 +31291,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az sig image-definition create <span class="nt">--resource-group</span> <span class="k">${</span><span class="nv">RESOURCE_GROUP</span><span class="k">}</span> <span class="nt">--gallery-name</span> <span class="k">${</span><span class="nv">GALLERY_NAME</span><span class="k">}</span><span class="nt">--gallery-image-definition</span> rhcos-arm64 <span class="nt">--publisher</span> RedHat <span class="nt">--offer</span> arm <span class="nt">--sku</span> arm64 <span class="nt">--os-type</span> linux <span class="nt">--architecture</span> Arm64 <span class="nt">--hyper-v-generation</span> V2</code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az sig image-definition create <span class="nt">--resource-group</span> <span class="k">${</span><span class="nv">RESOURCE_GROUP</span><span class="k">}</span> <span class="nt">--gallery-name</span> <span class="k">${</span><span class="nv">GALLERY_NAME</span><span class="k">}</span> <span class="nt">--gallery-image-definition</span> rhcos-arm64 <span class="nt">--publisher</span> RedHat <span class="nt">--offer</span> arm <span class="nt">--sku</span> arm64 <span class="nt">--os-type</span> linux <span class="nt">--architecture</span> Arm64 <span class="nt">--hyper-v-generation</span> V2</code></pre>
 </div>
 </div>
 </li>
@@ -31304,10 +31304,10 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </li>
 <li>
-<p>Use the <code>RHCOS_VHD_URL</code> file, your storage account, resource group, and image gallery   to create an image version:</p>
+<p>Use the <code>RHCOS_VHD_URL</code> file, your storage account, resource group, and image gallery to create an image version. In the following example, <code>1.0.0</code> is the image version.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az sig image-version create <span class="nt">--resource-group</span> <span class="k">${</span><span class="nv">RESOURCE_GROUP</span><span class="k">}</span> <span class="nt">--gallery-name</span> <span class="k">${</span><span class="nv">GALLERY_NAME</span><span class="k">}</span><span class="nt">--gallery-image-definition</span> rhcos-arm64 <span class="nt">--gallery-image-version</span> 1.0.0 <span class="nt">--os-vhd-storage-account</span> <span class="k">${</span><span class="nv">STORAGE_ACCOUNT_NAME</span><span class="k">}</span> <span class="nt">--os-vhd-uri</span> <span class="k">${</span><span class="nv">RHCOS_VHD_URL</span><span class="k">}</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az sig image-version create <span class="nt">--resource-group</span> <span class="k">${</span><span class="nv">RESOURCE_GROUP</span><span class="k">}</span> <span class="nt">--gallery-name</span> <span class="k">${</span><span class="nv">GALLERY_NAME</span><span class="k">}</span> <span class="nt">--gallery-image-definition</span> rhcos-arm64 <span class="nt">--gallery-image-version</span> 1.0.0 <span class="nt">--os-vhd-storage-account</span> <span class="k">${</span><span class="nv">STORAGE_ACCOUNT_NAME</span><span class="k">}</span> <span class="nt">--os-vhd-uri</span> <span class="k">${</span><span class="nv">RHCOS_VHD_URL</span><span class="k">}</span></code></pre>
 </div>
 </div>
 </li>
@@ -31326,7 +31326,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <div class="sect2">
 <h3 id="mixed-arch-modify-machine-set_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-modify-machine-set_deploy-heterogeneous-configuration"></a>Adding a machine set to your cluster using the <code>arm64</code> bootimage</h3>
 <div class="paragraph">
-<p>To add <code>arm64</code> worker nodes to your heterogeneous cluster, you must create an Azure machine set that uses the <code>arm64</code> bootimage. To create your own custom machine set on Azure, see "Creating a machine set on Azure".</p>
+<p>To add <code>arm64</code> worker nodes to your heterogeneous cluster, you must create an Azure machine set that uses the <code>arm64</code> bootimage. To create your own custom machine set on Azure, see "Creating a machine set on Azure" in <em>Additional Resources</em>.</p>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
@@ -31336,76 +31336,98 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </li>
 </ul>
 </div>
-<div class="olist arabic">
+<div class="ulist">
 <div class="title">Procedure</div>
-<ol class="arabic">
+<ul>
 <li>
-<p>View the machine sets in the cluster:</p>
+<p>Create a machine set and modify the <code>resourceID</code> and <code>vmSize</code> parameters. This machine set will control the <code>arm64</code> worker nodes in your cluster.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">oc get machineset -o yaml my-machine-set.yaml</span></code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Create a machine set and modify the <code>resourceID</code> and <code>vmside</code> parameters. This machine set will control the <code>arm64</code> worker nodes in your cluster.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">oc create -f my-machine-set.yaml</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">oc create -f arm64-machine-set-0.yaml</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Sample YAML machine set with <code>arm64</code> bootimage</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="yaml">    <span class="na">providerSpec</span><span class="pi">:</span>
+<pre class="rouge highlight nowrap"><code data-lang="yaml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">machine.openshift.io/v1beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MachineSet</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="s">machine.openshift.io/cluster-api-cluster</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;</span>
+    <span class="s">machine.openshift.io/cluster-api-machine-role</span><span class="pi">:</span> <span class="s">worker</span>
+    <span class="s">machine.openshift.io/cluster-api-machine-type</span><span class="pi">:</span> <span class="s">worker</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-arm64-machine-set-0</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">openshift-machine-api</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">2</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="s">machine.openshift.io/cluster-api-cluster</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;</span>
+      <span class="s">machine.openshift.io/cluster-api-machineset</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-arm64-machine-set-0</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="s">machine.openshift.io/cluster-api-cluster</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;</span>
+        <span class="s">machine.openshift.io/cluster-api-machine-role</span><span class="pi">:</span> <span class="s">worker</span>
+        <span class="s">machine.openshift.io/cluster-api-machine-type</span><span class="pi">:</span> <span class="s">worker</span>
+        <span class="s">machine.openshift.io/cluster-api-machineset</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-arm64-machine-set-0</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">lifecycleHooks</span><span class="pi">:</span> <span class="pi">{}</span>
+      <span class="na">metadata</span><span class="pi">:</span> <span class="pi">{}</span>
+      <span class="na">providerSpec</span><span class="pi">:</span>
         <span class="na">value</span><span class="pi">:</span>
-          <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">azureproviderconfig.openshift.io/v1beta1</span>
+          <span class="na">acceleratedNetworking</span><span class="pi">:</span> <span class="no">true</span>
+          <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">machine.openshift.io/v1beta1</span>
           <span class="na">credentialsSecret</span><span class="pi">:</span>
             <span class="na">name</span><span class="pi">:</span> <span class="s">azure-cloud-credentials</span>
             <span class="na">namespace</span><span class="pi">:</span> <span class="s">openshift-machine-api</span>
           <span class="na">image</span><span class="pi">:</span>
+            <span class="na">offer</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+            <span class="na">publisher</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
             <span class="na">resourceID</span><span class="pi">:</span> <span class="s">/resourceGroups/${RESOURCE_GROUP}/providers/Microsoft.Compute/galleries/${GALLERY_NAME}/images/rhcos-arm64/versions/1.0.0</span> <i class="conum" data-value="1"></i><b>(1)</b>
+            <span class="na">sku</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+            <span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
           <span class="na">kind</span><span class="pi">:</span> <span class="s">AzureMachineProviderSpec</span>
           <span class="na">location</span><span class="pi">:</span> <span class="s">&lt;region&gt;</span>
           <span class="na">managedIdentity</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-identity</span>
-          <span class="na">metadata</span><span class="pi">:</span>
-            <span class="na">creationTimestamp</span><span class="pi">:</span> <span class="no">null</span>
-          <span class="na">natRule</span><span class="pi">:</span> <span class="no">null</span>
+          <span class="na">networkResourceGroup</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-rg</span>
           <span class="na">osDisk</span><span class="pi">:</span>
+            <span class="na">diskSettings</span><span class="pi">:</span> <span class="pi">{}</span>
             <span class="na">diskSizeGB</span><span class="pi">:</span> <span class="m">128</span>
             <span class="na">managedDisk</span><span class="pi">:</span>
               <span class="na">storageAccountType</span><span class="pi">:</span> <span class="s">Premium_LRS</span>
             <span class="na">osType</span><span class="pi">:</span> <span class="s">Linux</span>
           <span class="na">publicIP</span><span class="pi">:</span> <span class="no">false</span>
+          <span class="na">publicLoadBalancer</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;</span>
           <span class="na">resourceGroup</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-rg</span>
-          <span class="na">subnet</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-&lt;role&gt;-subnet</span>
+          <span class="na">subnet</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-worker-subnet</span>
           <span class="na">userDataSecret</span><span class="pi">:</span>
             <span class="na">name</span><span class="pi">:</span> <span class="s">worker-user-data</span>
-          <span class="na">vmSize</span><span class="pi">:</span> <span class="s">Standard_D4s_v3</span> <i class="conum" data-value="2"></i><b>(2)</b>
+          <span class="na">vmSize</span><span class="pi">:</span> <span class="s">Standard_D4ps_v5</span> <i class="conum" data-value="2"></i><b>(2)</b>
           <span class="na">vnet</span><span class="pi">:</span> <span class="s">&lt;infrastructure_id&gt;-vnet</span>
-          <span class="na">zone</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1"</span></code></pre>
+          <span class="na">zone</span><span class="pi">:</span> <span class="s2">"</span><span class="s">&lt;zone&gt;"</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Set the <code>resourceID</code> parameter to the <code>arm64</code> bootimage</td>
+<td>Set the <code>resourceID</code> parameter to the <code>arm64</code> bootimage.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Set the <code>vmsize</code> parameter to the instance type used in your installation. The <code>vmSize</code> parameter has to be from a ARM64 architecture VM family.</td>
+<td>Set the <code>vmSize</code> parameter to the instance type used in your installation. Some example instance types are <code>Standard_D4ps_v5</code> or <code>D8ps</code>.</td>
 </tr>
 </table>
 </div>
 </li>
-</ol>
+</ul>
 </div>
 <div class="olist arabic">
 <div class="title">Verification</div>
 <ol class="arabic">
 <li>
-<p>Verify that the <code>arm64</code> bootimage is added to your machine set:</p>
+<p>Verify that the new ARM64 machines are running:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc get machines <span class="nt">-n</span> openshift-machine-api</code></pre>
