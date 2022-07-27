@@ -31122,13 +31122,14 @@
 <ul class="sectlevel2">
 <li><a href="#mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration">Creating an <code>arm64</code> bootimage using the Azure image gallery</a></li>
 <li><a href="#mixed-arch-modify-machine-set_deploy-heterogeneous-configuration">Adding a machine set to your cluster using the <code>arm64</code> bootimage</a></li>
+<li><a href="#mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration">Upgrading your heterogeneous cluster</a></li>
 </ul>
 </div>
 <div class="paragraph">
 <p>A heterogeneous cluster is a cluster that supports worker machines with different architectures. You can deploy a heterogeneous cluster by creating an Azure installer-provisioned cluster using the heterogeneous installer binary. For Azure installation, see <a href="../installing/installing_azure/installing-azure-customizations.html">Installing on Azure with customizations</a>.</p>
 </div>
 <div class="paragraph">
-<p>The following procedures explain how to generate a <code>arm64</code> bootimage and create an Azure machine set with the <code>arm64</code> bootimage. This will add <code>arm64</code> worker nodes to your heterogeneous cluster and deploy the desired amount of ARM64 virtual machines (VM). Heterogeneous clusters are only available on Azure installer-provisioned infrastructures with <code>x86_64</code> control planes.</p>
+<p>The following procedures explain how to generate a <code>arm64</code> bootimage and create an Azure machine set with the <code>arm64</code> bootimage. This will add <code>arm64</code> worker nodes to your heterogeneous cluster and deploy the desired amount of ARM64 virtual machines (VM). This section also shows how to upgrade your existing cluster to a heterogeneous cluster. Heterogeneous clusters are only available on Azure installer-provisioned infrastructures with <code>x86_64</code> control planes.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -31312,7 +31313,12 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </li>
 <li>
-<p>Your <code>arm64</code> imageID for the <code>resourceID</code> parameter is now generated:</p>
+<p>Your <code>arm64</code> imageID for the <code>resourceID</code> parameter is now generated. You can access your <code>resourceID</code> with the following command:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">az sig image-version show -r $</span>GALLERY_NAME <span class="nt">-g</span> <span class="nv">$RESOURCE_GROUP</span> <span class="nt">-i</span> rhcos-arm64 <span class="nt">-e</span> 1.0.0</code></pre>
+</div>
+</div>
 <div class="listingblock">
 <div class="title">Example <code>resourceID</code></div>
 <div class="content">
@@ -31430,15 +31436,14 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <p>Verify that the new ARM64 machines are running:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc get machines <span class="nt">-n</span> openshift-machine-api</code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc get machineset <span class="nt">-n</span> openshift-machine-api</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Example output</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">NAME                                                      DESIRED  CURRENT  READY  AVAILABLE  AGE
-my-heterogeneous-clus-7tssg-worker-westus-21                    2        2      2          2  10m
-my-heterogeneous-clus-7tssg-worker-westus-21-additional         2        2      2          2  10m</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">NAME                                                DESIRED  CURRENT  READY  AVAILABLE  AGE
+</span><span class="gp">&lt;infrastructure_id&gt;</span><span class="nt">-arm64-machine-set-0</span>                   2        2      2          2  10m</code></pre>
 </div>
 </div>
 </li>
@@ -31459,6 +31464,41 @@ my-heterogeneous-clus-7tssg-worker-westus-21-additional         2        2      
 <p><a href="../machine_management/creating_machinesets/creating-machineset-azure.html">Creating a machine set on Azure</a></p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration"></a>Upgrading your heterogeneous cluster</h3>
+<div class="paragraph">
+<p>You must perform an explicit upgrade command to upgrade your existing cluster to a heterogeneous cluster.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>Installed the OpenShift CLI (<code>oc</code>).</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>To manually upgrade your cluster, use the following command:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">oc adm upgrade --allow-explicit-upgrade --to-image &lt;image-pullspec&gt; <i class="conum" data-value="1"></i><b>(1)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>You can access the <code>image-pullspec</code> from the <strong>FIXME</strong> mixed-arch mirrors page</td>
+</tr>
+</table>
 </div>
 </div>
       </div>
