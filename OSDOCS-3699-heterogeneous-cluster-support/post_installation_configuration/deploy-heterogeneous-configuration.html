@@ -31119,17 +31119,31 @@
 <div class="sectionbody">
 <div id="toc" class="toc">
 <div id="toctitle" class="title"></div>
-<ul class="sectlevel2">
-<li><a href="#mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration">Creating an <code>arm64</code> bootimage using the Azure image gallery</a></li>
-<li><a href="#mixed-arch-modify-machine-set_deploy-heterogeneous-configuration">Adding a machine set to your cluster using the <code>arm64</code> bootimage</a></li>
+<ul class="sectlevel1">
+<li><a href="#mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration">Creating an <code>arm64</code> boot image using the Azure image gallery</a></li>
+<li><a href="#mixed-arch-modify-machine-set_deploy-heterogeneous-configuration">Adding a machine set to your cluster using the <code>arm64</code> boot image</a></li>
 <li><a href="#mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration">Upgrading your heterogeneous cluster</a></li>
 </ul>
 </div>
 <div class="paragraph">
 <p>A heterogeneous cluster is a cluster that supports worker machines with different architectures. You can deploy a heterogeneous cluster by creating an Azure installer-provisioned cluster using the heterogeneous installer binary. For Azure installation, see <a href="../installing/installing_azure/installing-azure-customizations.html">Installing on Azure with customizations</a>.</p>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>The following procedures explain how to generate a <code>arm64</code> bootimage and create an Azure machine set with the <code>arm64</code> bootimage. This will add <code>arm64</code> worker nodes to your heterogeneous cluster and deploy the desired amount of ARM64 virtual machines (VM). This section also shows how to upgrade your existing cluster to a heterogeneous cluster. Heterogeneous clusters are only available on Azure installer-provisioned infrastructures with <code>x86_64</code> control planes.</p>
+<p>The heterogeneous clusters Technology Preview feature has limited usability with installing, upgrading, and running payloads.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following procedures explain how to generate an <code>arm64</code> boot image and create an Azure machine set with the <code>arm64</code> boot image. This will add <code>arm64</code> worker nodes to your heterogeneous cluster and deploy the desired amount of ARM64 virtual machines (VM). This section also shows how to upgrade your existing cluster to a heterogeneous cluster. Heterogeneous clusters are only available on Azure installer-provisioned infrastructures with <code>x86_64</code> control planes.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -31156,19 +31170,20 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration"></a>Creating an <code>arm64</code> bootimage using the Azure image gallery</h3>
+<div class="sect1">
+<h2 id="mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-creating-arm64-bootimage_deploy-heterogeneous-configuration"></a>Creating an <code>arm64</code> boot image using the Azure image gallery</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>To configure your heterogeneous cluster, you must create an <code>arm64</code> bootimage and add it to your Azure machine set. The following procedure describes how to manually generate an <code>arm64</code> bootimage.</p>
+<p>To configure your heterogeneous cluster, you must create an <code>arm64</code> boot image and add it to your Azure machine set. The following procedure describes how to manually generate an <code>arm64</code> boot image.</p>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>Installed the Azure CLI (<code>az</code>).</p>
+<p>You installed the Azure CLI (<code>az</code>).</p>
 </li>
 <li>
-<p>Created a single-architecture Azure installer-provisioned cluster with the heterogeneous installer binary.</p>
+<p>You created a single-architecture Azure installer-provisioned cluster with the heterogeneous installer binary.</p>
 </li>
 </ul>
 </div>
@@ -31176,7 +31191,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <div class="title">Procedure</div>
 <ol class="arabic">
 <li>
-<p>Login to your Azure account:</p>
+<p>Log in to your Azure account:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az login</code></pre>
@@ -31184,7 +31199,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </li>
 <li>
-<p>Create a storage account and upload the <code>arm64</code> virtual hard disk (VHD) to your storage account. The OpenShift Container Platform installation program creates a resource group, however, the bootimage can also be uploaded to a custom named resource group:</p>
+<p>Create a storage account and upload the <code>arm64</code> virtual hard disk (VHD) to your storage account. The OpenShift Container Platform installation program creates a resource group, however, the boot image can also be uploaded to a custom named resource group:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az storage account create <span class="nt">-n</span> <span class="k">${</span><span class="nv">STORAGE_ACCOUNT_NAME</span><span class="k">}</span> <span class="nt">-g</span> <span class="k">${</span><span class="nv">RESOURCE_GROUP</span><span class="k">}</span> <span class="nt">-l</span> westus <span class="nt">--sku</span> Standard_LRS <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
@@ -31212,7 +31227,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Extract the <code>URL</code> field and set it to <code>RHCOS_VHD_ORIGIN_URL</code> as the file name:</p>
+<p>Extract the <code>URL</code> field and set it to <code>RHCOS_VHD_ORIGIN_URL</code> as the file name by running the following command:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nv">RHCOS_VHD_ORIGIN_URL</span><span class="o">=</span><span class="si">$(</span>./openshift-install coreos print-stream-json | jq <span class="nt">-r</span> <span class="s1">'.architectures.aarch64."rhel-coreos-extensions"."azure-disk".url'</span><span class="si">)</span></code></pre>
@@ -31220,7 +31235,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </li>
 <li>
-<p>Extract the <code>aarch64</code> VHD name and set it to <code>BLOB_NAME</code> as the file name:</p>
+<p>Extract the <code>aarch64</code> VHD name and set it to <code>BLOB_NAME</code> as the file name by running the following command:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nv">BLOB_NAME</span><span class="o">=</span>rhcos-<span class="si">$(</span>./openshift-install coreos print-stream-json | jq <span class="nt">-r</span> <span class="s1">'.architectures.aarch64."rhel-coreos-extensions"."azure-disk".release'</span><span class="si">)</span><span class="nt">-azure</span>.aarch64.vhd</code></pre>
@@ -31231,11 +31246,15 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </li>
 <li>
-<p>Generate a shared access signature (SAS) token. Use this token to upload the RHCOS VHD to your storage container:</p>
+<p>Generate a shared access signature (SAS) token. Use this token to upload the RHCOS VHD to your storage container with the following commands:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nv">end</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="nt">-u</span> <span class="nt">-d</span> <span class="s2">"30 minutes"</span> <span class="s1">'+%Y-%m-%dT%H:%MZ'</span><span class="sb">`</span>
-<span class="gp">$</span><span class="w"> </span><span class="nv">sas</span><span class="o">=</span><span class="sb">`</span>az storage container generate-sas <span class="nt">-n</span> <span class="k">${</span><span class="nv">CONTAINER_NAME</span><span class="k">}</span> <span class="nt">--account-name</span> <span class="k">${</span><span class="nv">STORAGE_ACCOUNT_NAME</span><span class="k">}</span> <span class="nt">--https-only</span> <span class="nt">--permissions</span> dlrw <span class="nt">--expiry</span> <span class="nv">$end</span> <span class="nt">-o</span> tsv<span class="sb">`</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nv">end</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="nt">-u</span> <span class="nt">-d</span> <span class="s2">"30 minutes"</span> <span class="s1">'+%Y-%m-%dT%H:%MZ'</span><span class="sb">`</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nv">sas</span><span class="o">=</span><span class="sb">`</span>az storage container generate-sas <span class="nt">-n</span> <span class="k">${</span><span class="nv">CONTAINER_NAME</span><span class="k">}</span> <span class="nt">--account-name</span> <span class="k">${</span><span class="nv">STORAGE_ACCOUNT_NAME</span><span class="k">}</span> <span class="nt">--https-only</span> <span class="nt">--permissions</span> dlrw <span class="nt">--expiry</span> <span class="nv">$end</span> <span class="nt">-o</span> tsv<span class="sb">`</span></code></pre>
 </div>
 </div>
 </li>
@@ -31313,11 +31332,14 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 </li>
 <li>
-<p>Your <code>arm64</code> imageID for the <code>resourceID</code> parameter is now generated. You can access your <code>resourceID</code> with the following command:</p>
+<p>Your <code>arm64</code> boot image is now generated. You can access the ID of your image with the following command:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">az sig image-version show -r $</span>GALLERY_NAME <span class="nt">-g</span> <span class="nv">$RESOURCE_GROUP</span> <span class="nt">-i</span> rhcos-arm64 <span class="nt">-e</span> 1.0.0</code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>az sig image-version show <span class="nt">-r</span> <span class="nv">$GALLERY_NAME</span> <span class="nt">-g</span> <span class="nv">$RESOURCE_GROUP</span> <span class="nt">-i</span> rhcos-arm64 <span class="nt">-e</span> 1.0.0</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>The following example image ID is used in the <code>recourseID</code> parameter of the machine set:</p>
 </div>
 <div class="listingblock">
 <div class="title">Example <code>resourceID</code></div>
@@ -31329,16 +31351,18 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </ol>
 </div>
 </div>
-<div class="sect2">
-<h3 id="mixed-arch-modify-machine-set_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-modify-machine-set_deploy-heterogeneous-configuration"></a>Adding a machine set to your cluster using the <code>arm64</code> bootimage</h3>
+</div>
+<div class="sect1">
+<h2 id="mixed-arch-modify-machine-set_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-modify-machine-set_deploy-heterogeneous-configuration"></a>Adding a machine set to your cluster using the <code>arm64</code> boot image</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>To add <code>arm64</code> worker nodes to your heterogeneous cluster, you must create an Azure machine set that uses the <code>arm64</code> bootimage. To create your own custom machine set on Azure, see "Creating a machine set on Azure" in <em>Additional Resources</em>.</p>
+<p>To add <code>arm64</code> worker nodes to your heterogeneous cluster, you must create an Azure machine set that uses the <code>arm64</code> boot image. To create your own custom machine set on Azure, see "Creating a machine set on Azure".</p>
 </div>
 <div class="ulist">
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>Installed the OpenShift CLI (<code>oc</code>).</p>
+<p>You installed the OpenShift CLI (<code>oc</code>).</p>
 </li>
 </ul>
 </div>
@@ -31346,14 +31370,14 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <div class="title">Procedure</div>
 <ul>
 <li>
-<p>Create a machine set and modify the <code>resourceID</code> and <code>vmSize</code> parameters. This machine set will control the <code>arm64</code> worker nodes in your cluster.</p>
+<p>Create a machine set and modify the <code>resourceID</code> and <code>vmSize</code> parameters with the following command. This machine set will control the <code>arm64</code> worker nodes in your cluster:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">oc create -f arm64-machine-set-0.yaml</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc create <span class="nt">-f</span> arm64-machine-set-0.yaml</code></pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Sample YAML machine set with <code>arm64</code> bootimage</div>
+<div class="title">Sample YAML machine set with <code>arm64</code> boot image</div>
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="yaml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">machine.openshift.io/v1beta1</span>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">MachineSet</span>
@@ -31418,7 +31442,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Set the <code>resourceID</code> parameter to the <code>arm64</code> bootimage.</td>
+<td>Set the <code>resourceID</code> parameter to the <code>arm64</code> boot image.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -31433,7 +31457,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <div class="title">Verification</div>
 <ol class="arabic">
 <li>
-<p>Verify that the new ARM64 machines are running:</p>
+<p>Verify that the new ARM64 machines are running by entering the following command:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc get machineset <span class="nt">-n</span> openshift-machine-api</code></pre>
@@ -31451,13 +31475,13 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <p>You can check that the nodes are ready and scheduable with the following command:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">oc get nodes</span></code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc get nodes</code></pre>
 </div>
 </div>
 </li>
 </ol>
 </div>
-<div class="ulist">
+<div class="ulist _additional-resources">
 <div class="title">Additional resources</div>
 <ul>
 <li>
@@ -31466,8 +31490,10 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration"></a>Upgrading your heterogeneous cluster</h3>
+</div>
+<div class="sect1">
+<h2 id="mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration"><a class="anchor" href="#mixed-arch-upgrade-mirrors_deploy-heterogeneous-configuration"></a>Upgrading your heterogeneous cluster</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>You must perform an explicit upgrade command to upgrade your existing cluster to a heterogeneous cluster.</p>
 </div>
@@ -31475,7 +31501,7 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 <div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>Installed the OpenShift CLI (<code>oc</code>).</p>
+<p>You installed the OpenShift CLI (<code>oc</code>).</p>
 </li>
 </ul>
 </div>
@@ -31489,16 +31515,17 @@ features, see <a href="https://access.redhat.com/support/offerings/techpreview/"
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="nowrap">oc adm upgrade --allow-explicit-upgrade --to-image &lt;image-pullspec&gt; <i class="conum" data-value="1"></i><b>(1)</b></pre>
+<pre class="nowrap">$ oc adm upgrade --allow-explicit-upgrade --to-image &lt;image-pullspec&gt; <i class="conum" data-value="1"></i><b>(1)</b></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>You can access the <code>image-pullspec</code> from the <strong>FIXME</strong> mixed-arch mirrors page</td>
+<td>You can access the <code>image-pullspec</code> object from the <a href="https://mirror.openshift.com/pub/openshift-v4/multi/clients/ocp/4.11.0-multi-rc.6/">mixed-arch mirrors page</a> in the <code>release.txt</code> file.</td>
 </tr>
 </table>
+</div>
 </div>
 </div>
       </div>
