@@ -1,0 +1,10 @@
+:_content-type: ASSEMBLY
+:context: multi-architecture-compute-managing
+[id="multi-architecture-compute-managing"]
+= Managing your cluster with multi-architecture compute machines
+
+toc::[] 
+
+Add some text here about managing images. There will probably be more with the new content
+
+include::modules/multi-architecture-import-imagestreams.adoc[leveloffset=+1]
